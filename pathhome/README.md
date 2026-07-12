@@ -23,6 +23,11 @@ decision behind a black box.
 - **Path payments (strict send)** — queries Horizon's `/paths/strict-send`
   endpoint to discover every route the DEX can currently fill for a given
   asset pair and amount.
+- **Wallet connect + real testnet settlement** — connects to Freighter,
+  builds an unsigned path payment transaction on the backend (which never
+  touches a private key), has the wallet sign it client-side, and submits
+  the signed envelope to Horizon. Every settled transfer returns a
+  Stellar Expert link so it can be independently verified on-chain.
 - **SEP-24** (planned) — interactive fiat deposit/withdraw through local
   anchors for on/off-ramping.
 - **SEP-31** (planned) — direct anchor-to-anchor settlement for the
@@ -30,9 +35,9 @@ decision behind a black box.
 - **Soroban** (planned) — a smart contract to handle conditional splits,
   e.g. sending part of a transfer to immediate cash-out and part to savings.
 
-This MVP currently implements strict-send path discovery end to end against
-Stellar's public testnet. SEP-24/31 and the Soroban contract are the next
-build milestones.
+This MVP implements strict-send path discovery and live, wallet-signed
+settlement end to end against Stellar's public testnet. SEP-24/31 and the
+Soroban contract are the next build milestones.
 
 ## Architecture
 
@@ -42,11 +47,19 @@ pathhome/
 │   └── app/
 │       ├── main.py            API routes
 │       ├── stellar_service.py Horizon path-finding wrapper
+│       ├── tx_builder.py      Builds unsigned transactions, submits signed ones
 │       ├── routing.py         Route ranking + plain-language explanation
 │       └── models.py          Request/response schemas
-├── frontend/         Next.js UI for requesting and viewing routes
+├── frontend/         Next.js UI: route quotes, Freighter wallet connect, live send
 └── docker-compose.yml
 ```
+
+## Sending a real testnet payment
+
+1. Install the [Freighter](https://www.freighter.app/) browser extension and switch it to **Testnet**.
+2. Fund your Freighter account using [Friendbot](https://friendbot.stellar.org) if it's new.
+3. On the PathHome demo, click **Connect wallet**, run a quote, paste a recipient's testnet public key, then **Send real payment on testnet**.
+4. Approve the transaction in the Freighter popup. Once submitted, PathHome shows a Stellar Expert link to the settled transaction.
 
 ## Running locally
 
@@ -76,9 +89,10 @@ npm run dev
 
 ## Status
 
-Hackathon MVP — currently demonstrates live route discovery against Stellar
-testnet. Anchor integration (SEP-24/31), the Soroban conditional-split
-contract, and lite-KYC onboarding are in progress.
+Hackathon MVP — demonstrates live route discovery and wallet-signed
+settlement against Stellar testnet, end to end. Anchor integration
+(SEP-24/31), the Soroban conditional-split contract, and lite-KYC
+onboarding are in progress.
 
 ## License
 

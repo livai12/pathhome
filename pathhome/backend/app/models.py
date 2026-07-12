@@ -36,3 +36,29 @@ class QuoteHistoryItem(BaseModel):
     send_amount: str
     dest_amount: str
     fee_percent: float
+
+
+class PrepareTransactionRequest(BaseModel):
+    sender_public_key: str = Field(..., description="Stellar public key (G...) of the connected wallet")
+    recipient_public_key: str = Field(..., description="Stellar public key (G...) of the recipient")
+    source_asset_code: str
+    source_asset_issuer: Optional[str] = None
+    dest_asset_code: str
+    dest_asset_issuer: Optional[str] = None
+    send_amount: str
+    dest_min: str = Field(..., description="Minimum acceptable destination amount, from the chosen quote")
+
+
+class PrepareTransactionResponse(BaseModel):
+    xdr: str
+    network_passphrase: str
+
+
+class SubmitTransactionRequest(BaseModel):
+    signed_xdr: str = Field(..., description="Base64 transaction envelope XDR, already signed by the wallet")
+
+
+class SubmitTransactionResponse(BaseModel):
+    hash: str
+    successful: bool
+    explorer_url: str
