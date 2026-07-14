@@ -107,3 +107,13 @@ onboarding are in progress.
 ## License
 
 MIT
+
+## UI/UX Section
+<img width="1586" height="970" alt="image" src="https://github.com/user-attachments/assets/d3765ec1-6596-43ed-bc9e-99afcf173e3b" />
+<img width="1461" height="918" alt="image" src="https://github.com/user-attachments/assets/03938590-ec75-490b-82c8-ebcd80c1a48a" />
+<img width="1439" height="797" alt="image" src="https://github.com/user-attachments/assets/dfa8e530-36b7-47ae-b69d-8c3ef72169e6" />
+<img width="1600" height="855" alt="image" src="https://github.com/user-attachments/assets/953ab80e-a71d-453f-b426-c886fd08d2f8" />
+
+
+
+
