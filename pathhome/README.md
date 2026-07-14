@@ -32,12 +32,19 @@ decision behind a black box.
   anchors for on/off-ramping.
 - **SEP-31** (planned) — direct anchor-to-anchor settlement for the
   remittance corridor.
-- **Soroban** (planned) — a smart contract to handle conditional splits,
-  e.g. sending part of a transfer to immediate cash-out and part to savings.
+- **Soroban — Split & Save contract** — a time-locked savings vault
+  (`contracts/split_save/`). When a transfer settles, a sender can split it
+  into an immediately-withdrawable portion and a portion locked until a
+  chosen date, so part of every remittance is automatically set aside as
+  savings for the recipient's family instead of being spent immediately.
+  Contract logic is covered by 4 passing unit tests
+  (`contracts/split_save/src/test.rs`); see `contracts/split_save/DEPLOY.md`
+  for testnet deployment steps and on-chain verification.
 
 This MVP implements strict-send path discovery and live, wallet-signed
-settlement end to end against Stellar's public testnet. SEP-24/31 and the
-Soroban contract are the next build milestones.
+settlement end to end against Stellar's public testnet, plus a
+logic-verified Soroban contract ready for testnet deployment. SEP-24/31 and
+full UI wiring for Split & Save are the next build milestones.
 
 ## Architecture
 
@@ -50,6 +57,8 @@ pathhome/
 │       ├── tx_builder.py      Builds unsigned transactions, submits signed ones
 │       ├── routing.py         Route ranking + plain-language explanation
 │       └── models.py          Request/response schemas
+├── contracts/
+│   └── split_save/  Soroban time-locked savings vault (see its DEPLOY.md)
 ├── frontend/         Next.js UI: route quotes, Freighter wallet connect, live send
 └── docker-compose.yml
 ```
