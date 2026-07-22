@@ -96,6 +96,8 @@ cd frontend
 npm install
 npm run dev
 ```
+# Deploment Website
+https://pathhome-omega.vercel.app/
 
 ## Status
 
